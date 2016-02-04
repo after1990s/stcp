@@ -10,7 +10,7 @@ stcp_cache::~stcp_cache()
 
 SPKTEXT * stcp_cache::alloc(int serial)
 {
-    assert(serial > 0);
+    assert(serial >= 0);
     //检查(serial & mask)对应的包是否为空
     int cache_index = serial & STCP_CACHE_MASK;
     if (cache_pool[cache_index].pkt_size != 0)
@@ -20,6 +20,7 @@ SPKTEXT * stcp_cache::alloc(int serial)
     }
     //是，增加size，返回成功
     cache_size ++;
+	cache_pool[cache_index].pkt_size = sizeof(cache_pool[cache_index].pkt);
     return &cache_pool[cache_index];
 }
 int stcp_cache::free (int serial, int size)

@@ -1,10 +1,13 @@
 #ifndef __STCP_H
 #define __STCP_H
 #include <assert.h>
-#include <string.h>
+#include <cstring>
 #include "stcp_errno.h"
 enum stcp_class_enum
 {
+	STCP_SOCKET_ACCEPT,
+	STCP_SOCKET_CONNECT,
+	STCP_SOCKET_LISTEN,
 
 };
 
