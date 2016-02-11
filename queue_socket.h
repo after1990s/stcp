@@ -6,37 +6,42 @@
 */
 #ifndef __QUEUE_SOCKET_H
 #define __QUEUE_SOCKET_H
-#include "stcp_socket.h"
+#include "stcp_socket_base.h"
+#include "stcp_socket_connect.h" 
+#include "stcp_socket_accept.h" 
+#include "stcp_socket_listen.h" 
 #include "stcp.h"
 #include <mutex>
+#include <atomic>
 #include <cstdlib>
 
 #define MAXSIZE_SOCKET (1024)
 typedef struct _s_queue_socket
 {
 	stcp_socket_status status;
-	stcp_socket *ss;
+	stcp_socket_base *ss;
 }SOCKET_QUEUE, *PSOCKET_QUEUE;
 class queue_socket
 {
 	public:
-		int queue_create();
-		int queue_query_index(int index);
-		int queue_query_by_addr();
-		int queue_close();
-		int queue_dump();
-		int queue_count();
+		int socket_create(int cls);
+		stcp_socket_base * queue_query_index(int index);
+		stcp_socket_base * queue_query_by_addr();
+		int socket_close(int index);
+		int socket_dump();
+		int socket_count() const;
+		//编译器保证单例的线程安全
+		static queue_socket m_instance;
 
+	private:
+		SOCKET_QUEUE *m_psocket_queue;
+		std::atomic<int> m_count;
+		std::mutex m_mutex;
 	private:
 		queue_socket();
 		~queue_socket();
-		queue_socket* get_instance();
-		void destory_instance();
 
-	private:
-		static queue_socket* m_queue_socket_instance;
-		static std::mutex m_mutex;
-		static SOCKET_QUEUE *m_socket_queue;
+
 };
 
 #endif

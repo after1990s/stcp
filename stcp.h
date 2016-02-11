@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <cstring>
 #include "stcp_errno.h"
+
 enum stcp_class_enum
 {
 	STCP_SOCKET_ACCEPT,
