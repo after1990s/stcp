@@ -1,9 +1,12 @@
 #include "stcp_socket_base.h"
-stcp_socket_base::stcp_socket_base(int sock_type,int sock_stream,int sock_proto): m_class(sock_type)
+stcp_socket_base::stcp_socket_base(int sock_type,int sock_stream,int sock_proto, int cls): m_class(sock_type), m_class(cls)
 {
     assert(sock_type==AF_INET);
     assert(sock_stream==SOCK_STREAM);
     assert(sock_proto==IPPROTO_UDP);
+
+	m_socket = socket(sock_type, sock_stream, sock_Proto);
+
 
 }
 stcp_socket_base::~stcp_socket_base()

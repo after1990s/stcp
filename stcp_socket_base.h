@@ -8,7 +8,7 @@
 class stcp_socket_base
 {
     public:
-        stcp_socket_base(int sock_type, int sock_stream, int sock_proto);
+        stcp_socket_base(int sock_type, int sock_stream, int sock_proto, int cls);
         ~stcp_socket_base();
 
 		virtual int bind(const struct sockaddr * addr, int addrlen);
