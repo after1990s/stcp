@@ -6,11 +6,13 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 CC	Makefile	/^CC=clang++$/;"	m
 CPPFLAGS	Makefile	/^CPPFLAGS=-std=c++11 -pthread -DDEBUG -O0 -g$/;"	m
-ERROR_IO_PENDING	stcp_errno.h	7;"	d
-ERROR_NOT_SUPPORT	stcp_errno.h	9;"	d
+ERROR_INVALID_SOCKET	stcp_errno.h	6;"	d
+ERROR_IO_PENDING	stcp_errno.h	8;"	d
+ERROR_NOT_SUPPORT	stcp_errno.h	10;"	d
+ERROR_OUTOF_INDEX	stcp_errno.h	5;"	d
 ERROR_SUCCESS	stcp_errno.h	3;"	d
 ERROR_UNEXPETED_PARA	stcp_errno.h	4;"	d
-MAXSIZE_SOCKET	queue_socket.h	15;"	d
+MAXSIZE_SOCKET	queue_socket.h	18;"	d
 PSOCKET_QUEUE	queue_socket.h	/^}SOCKET_QUEUE, *PSOCKET_QUEUE;$/;"	t	typeref:struct:_s_queue_socket
 SOCKET_QUEUE	queue_socket.h	/^}SOCKET_QUEUE, *PSOCKET_QUEUE;$/;"	t	typeref:struct:_s_queue_socket
 SPKT	stcp.h	/^}SPKT;$/;"	t	typeref:struct:stcp_pkt
@@ -19,7 +21,7 @@ SPKTEXT	stcp.h	/^}SPKTEXT;$/;"	t	typeref:struct:stcp_pkt_ext
 SPKTHDR	stcp.h	/^}SPKTHDR;$/;"	t	typeref:struct:stcp_packet_header
 STCP_CACHE_MASK	stcp_cache.h	9;"	d
 STCP_CACHE_MAXSIZE	stcp_cache.h	8;"	d
-STCP_PKT_DATA_SIZE	stcp.h	37;"	d
+STCP_PKT_DATA_SIZE	stcp.h	41;"	d
 STCP_SOCKET_ACCEPT	stcp.h	/^	STCP_SOCKET_ACCEPT,$/;"	e	enum:stcp_class_enum
 STCP_SOCKET_CONNECT	stcp.h	/^	STCP_SOCKET_CONNECT,$/;"	e	enum:stcp_class_enum
 STCP_SOCKET_LISTEN	stcp.h	/^	STCP_SOCKET_LISTEN,$/;"	e	enum:stcp_class_enum
@@ -46,13 +48,22 @@ __STCP_SOCKET_TCP_H	stcp_socket_tcp.h	2;"	d
 _s_queue_socket	queue_socket.h	/^typedef struct _s_queue_socket$/;"	s
 _s_queue_socket::ss	queue_socket.h	/^	stcp_socket_base *ss;$/;"	m	struct:_s_queue_socket	access:public
 _s_queue_socket::status	queue_socket.h	/^	stcp_socket_status status;$/;"	m	struct:_s_queue_socket	access:public
-accept	stcp_api.cpp	/^int accept(int socket, struct sockaddr *addr, int addrlen)$/;"	f	signature:(int socket, struct sockaddr *addr, int addrlen)
+accept	stcp_socket_base.cpp	/^int accept(struct sockaddr * addr,int addrlen);$/;"	p	file:	signature:(struct sockaddr * addr,int addrlen)
+accept	stcp_socket_base.h	/^		virtual int accept(struct sockaddr * addr, int addrlen);$/;"	p	class:stcp_socket_base	access:public	signature:(struct sockaddr * addr, int addrlen)
 ackfreq	stcp.h	/^    short ackfreq;$/;"	m	struct:stcp_pkt_data	access:public
 alloc	stcp_cache.cpp	/^SPKTEXT * stcp_cache::alloc(int serial)$/;"	f	class:stcp_cache	signature:(int serial)
 alloc	stcp_cache.h	/^       SPKTEXT *alloc(int serial);$/;"	p	class:stcp_cache	access:public	signature:(int serial)
+bind	stcp_socket_base.cpp	/^int bind(const struct sockaddr * addr,int addrlen);$/;"	p	file:	signature:(const struct sockaddr * addr,int addrlen)
+bind	stcp_socket_base.h	/^		virtual int bind(const struct sockaddr * addr, int addrlen);$/;"	p	class:stcp_socket_base	access:public	signature:(const struct sockaddr * addr, int addrlen)
 body	stcp.h	/^    }body;$/;"	m	struct:stcp_pkt	typeref:union:stcp_pkt::__anon1	access:public
 cache_pool	stcp_cache.h	/^       SPKTEXT cache_pool[STCP_CACHE_MAXSIZE];$/;"	m	class:stcp_cache	access:private
 cache_size	stcp_cache.h	/^       int cache_size;$/;"	m	class:stcp_cache	access:private
+close_socket	stcp_socket_base.cpp	/^int close_socket();$/;"	p	file:	signature:()
+close_socket	stcp_socket_base.h	/^		int close_socket();$/;"	p	class:stcp_socket_base	access:public	signature:()
+close_socket_force	stcp_socket_base.cpp	/^int close_socket_force();$/;"	p	file:	signature:()
+close_socket_force	stcp_socket_base.h	/^		int close_socket_force();$/;"	p	class:stcp_socket_base	access:public	signature:()
+connect	stcp_socket_base.cpp	/^int connect(struct sockaddr *addr,int addrlen);$/;"	p	file:	signature:(struct sockaddr *addr,int addrlen)
+connect	stcp_socket_base.h	/^		virtual int connect(struct sockaddr *addr, int addrlen);$/;"	p	class:stcp_socket_base	access:public	signature:(struct sockaddr *addr, int addrlen)
 data	stcp.h	/^        SPKTDATA data;$/;"	m	union:stcp_pkt::__anon1	access:public
 data	stcp.h	/^    char data[STCP_PKT_DATA_SIZE];$/;"	m	struct:stcp_pkt_data	access:public
 data_offset	stcp.h	/^    int data_offset;$/;"	m	struct:stcp_pkt_ext	access:public
@@ -61,12 +72,18 @@ free	stcp_cache.cpp	/^int stcp_cache::free (int serial, int size)$/;"	f	class:st
 free	stcp_cache.h	/^       int free(int serial, int size);$/;"	p	class:stcp_cache	access:public	signature:(int serial, int size)
 get_socket	stcp_startup.cpp	/^stcp_socket_base* stcp_startup::get_socket(int index)$/;"	f	class:stcp_startup	signature:(int index)
 get_socket	stcp_startup.h	/^		stcp_socket_base * get_socket(int index);$/;"	p	class:stcp_startup	access:public	signature:(int index)
+get_socket_class	stcp_socket_base.cpp	/^int  get_socket_class();$/;"	p	file:	signature:()
+get_socket_class	stcp_socket_base.h	/^		int  get_socket_class();$/;"	p	class:stcp_socket_base	access:public	signature:()
 hdr	stcp.h	/^    SPKTHDR hdr;$/;"	m	struct:stcp_pkt	access:public
+listen	stcp_socket_base.cpp	/^int listen(int backlog);$/;"	p	file:	signature:(int backlog)
+listen	stcp_socket_base.h	/^		virtual int listen(int backlog);$/;"	p	class:stcp_socket_base	access:public	signature:(int backlog)
+m_class	stcp_socket_base.h	/^		int m_class;\/\/socket 类型$/;"	m	class:stcp_socket_base	access:private
 m_count	queue_socket.h	/^		std::atomic<int> m_count;$/;"	m	class:queue_socket	access:private
 m_index	stcp_socket_base.h	/^		int m_index;\/\/socket在pool中的index$/;"	m	class:stcp_socket_base	access:private
 m_instance	queue_socket.cpp	/^queue_socket queue_socket::m_instance;$/;"	m	class:queue_socket	file:
 m_instance	queue_socket.h	/^		static queue_socket m_instance;$/;"	m	class:queue_socket	access:public
 m_instance	stcp_startup.h	/^		static stcp_startup m_instance;$/;"	m	class:stcp_startup	access:public
+m_mutex	queue_socket.h	/^		std::mutex m_mutex;$/;"	m	class:queue_socket	access:private
 m_mutex	stcp_startup.h	/^		static std::mutex m_mutex;$/;"	m	class:stcp_startup	access:private
 m_psocket_queue	queue_socket.h	/^		SOCKET_QUEUE *m_psocket_queue;$/;"	m	class:queue_socket	access:private
 m_socket	stcp_socket_base.h	/^		int m_socket;\/\/udp的socket$/;"	m	class:stcp_socket_base	access:private
@@ -77,6 +94,7 @@ make_socket	stcp_startup.h	/^		int make_socket(stcp_class_enum cls);$/;"	p	class
 pkt	stcp.h	/^    SPKT pkt;$/;"	m	struct:stcp_pkt_ext	access:public
 pkt_size	stcp.h	/^    int pkt_size;$/;"	m	struct:stcp_pkt_ext	access:public
 queue_query_by_addr	queue_socket.h	/^		stcp_socket_base * queue_query_by_addr();$/;"	p	class:queue_socket	access:public	signature:()
+queue_query_index	queue_socket.cpp	/^stcp_socket_base * queue_socket::queue_query_index(int index)$/;"	f	class:queue_socket	signature:(int index)
 queue_query_index	queue_socket.h	/^		stcp_socket_base * queue_query_index(int index);$/;"	p	class:queue_socket	access:public	signature:(int index)
 queue_socket	queue_socket.cpp	/^queue_socket::queue_socket()$/;"	f	class:queue_socket	signature:()
 queue_socket	queue_socket.h	/^		queue_socket();$/;"	p	class:queue_socket	access:private	signature:()
@@ -84,26 +102,39 @@ queue_socket	queue_socket.h	/^class queue_socket$/;"	c
 queue_socket::m_count	queue_socket.h	/^		std::atomic<int> m_count;$/;"	m	class:queue_socket	access:private
 queue_socket::m_instance	queue_socket.cpp	/^queue_socket queue_socket::m_instance;$/;"	m	class:queue_socket	file:
 queue_socket::m_instance	queue_socket.h	/^		static queue_socket m_instance;$/;"	m	class:queue_socket	access:public
+queue_socket::m_mutex	queue_socket.h	/^		std::mutex m_mutex;$/;"	m	class:queue_socket	access:private
 queue_socket::m_psocket_queue	queue_socket.h	/^		SOCKET_QUEUE *m_psocket_queue;$/;"	m	class:queue_socket	access:private
 queue_socket::queue_query_by_addr	queue_socket.h	/^		stcp_socket_base * queue_query_by_addr();$/;"	p	class:queue_socket	access:public	signature:()
+queue_socket::queue_query_index	queue_socket.cpp	/^stcp_socket_base * queue_socket::queue_query_index(int index)$/;"	f	class:queue_socket	signature:(int index)
 queue_socket::queue_query_index	queue_socket.h	/^		stcp_socket_base * queue_query_index(int index);$/;"	p	class:queue_socket	access:public	signature:(int index)
 queue_socket::queue_socket	queue_socket.cpp	/^queue_socket::queue_socket()$/;"	f	class:queue_socket	signature:()
 queue_socket::queue_socket	queue_socket.h	/^		queue_socket();$/;"	p	class:queue_socket	access:private	signature:()
-queue_socket::socket_close	queue_socket.h	/^		int socket_close();$/;"	p	class:queue_socket	access:public	signature:()
-queue_socket::socket_count	queue_socket.h	/^		int socket_count();$/;"	p	class:queue_socket	access:public	signature:()
-queue_socket::socket_create	queue_socket.cpp	/^int queue_socket::socket_create(stcp_class_enum cls)$/;"	f	class:queue_socket	signature:(stcp_class_enum cls)
-queue_socket::socket_create	queue_socket.h	/^		int socket_create(stcp_class_enum cls);$/;"	p	class:queue_socket	access:public	signature:(stcp_class_enum cls)
+queue_socket::socket_close	queue_socket.cpp	/^int queue_socket::socket_close(int index)$/;"	f	class:queue_socket	signature:(int index)
+queue_socket::socket_close	queue_socket.h	/^		int socket_close(int index);$/;"	p	class:queue_socket	access:public	signature:(int index)
+queue_socket::socket_count	queue_socket.cpp	/^int queue_socket::socket_count()$/;"	f	class:queue_socket	signature:()
+queue_socket::socket_count	queue_socket.h	/^		int socket_count() const;$/;"	p	class:queue_socket	access:public	signature:() const
+queue_socket::socket_create	queue_socket.cpp	/^int queue_socket::socket_create(int cls)$/;"	f	class:queue_socket	signature:(int cls)
+queue_socket::socket_create	queue_socket.h	/^		int socket_create(int cls);$/;"	p	class:queue_socket	access:public	signature:(int cls)
 queue_socket::socket_dump	queue_socket.h	/^		int socket_dump();$/;"	p	class:queue_socket	access:public	signature:()
 queue_socket::~queue_socket	queue_socket.cpp	/^queue_socket::~queue_socket()$/;"	f	class:queue_socket	signature:()
 queue_socket::~queue_socket	queue_socket.h	/^		~queue_socket();$/;"	p	class:queue_socket	access:private	signature:()
+recv	stcp_socket_base.cpp	/^int recv(void *buf,int size,int flag);$/;"	p	file:	signature:(void *buf,int size,int flag)
+recv	stcp_socket_base.h	/^		virtual int recv(void *buf, int size, int flag);$/;"	p	class:stcp_socket_base	access:public	signature:(void *buf, int size, int flag)
 remove_socket	stcp_startup.h	/^		int remove_socket(int index);$/;"	p	class:stcp_startup	access:public	signature:(int index)
-socket_close	queue_socket.h	/^		int socket_close();$/;"	p	class:queue_socket	access:public	signature:()
-socket_count	queue_socket.h	/^		int socket_count();$/;"	p	class:queue_socket	access:public	signature:()
-socket_create	queue_socket.cpp	/^int queue_socket::socket_create(stcp_class_enum cls)$/;"	f	class:queue_socket	signature:(stcp_class_enum cls)
-socket_create	queue_socket.h	/^		int socket_create(stcp_class_enum cls);$/;"	p	class:queue_socket	access:public	signature:(stcp_class_enum cls)
+send	stcp_socket_base.cpp	/^int send(const void * buf,int size,int flag);$/;"	p	file:	signature:(const void * buf,int size,int flag)
+send	stcp_socket_base.h	/^		virtual int send(const void * buf, int size, int flag);$/;"	p	class:stcp_socket_base	access:public	signature:(const void * buf, int size, int flag)
+set_socket_class	stcp_socket_base.cpp	/^void set_socket_class(int cls);$/;"	p	file:	signature:(int cls)
+set_socket_class	stcp_socket_base.h	/^		void set_socket_class(int cls);$/;"	p	class:stcp_socket_base	access:public	signature:(int cls)
+socket_close	queue_socket.cpp	/^int queue_socket::socket_close(int index)$/;"	f	class:queue_socket	signature:(int index)
+socket_close	queue_socket.h	/^		int socket_close(int index);$/;"	p	class:queue_socket	access:public	signature:(int index)
+socket_count	queue_socket.cpp	/^int queue_socket::socket_count()$/;"	f	class:queue_socket	signature:()
+socket_count	queue_socket.h	/^		int socket_count() const;$/;"	p	class:queue_socket	access:public	signature:() const
+socket_create	queue_socket.cpp	/^int queue_socket::socket_create(int cls)$/;"	f	class:queue_socket	signature:(int cls)
+socket_create	queue_socket.h	/^		int socket_create(int cls);$/;"	p	class:queue_socket	access:public	signature:(int cls)
 socket_dump	queue_socket.h	/^		int socket_dump();$/;"	p	class:queue_socket	access:public	signature:()
 ss	queue_socket.h	/^	stcp_socket_base *ss;$/;"	m	struct:_s_queue_socket	access:public
 status	queue_socket.h	/^	stcp_socket_status status;$/;"	m	struct:_s_queue_socket	access:public
+stcp_accept	stcp_api.cpp	/^int stcp_accept(int socket, struct sockaddr *addr, int addrlen)$/;"	f	signature:(int socket, struct sockaddr *addr, int addrlen)
 stcp_accept	stcp_api.h	/^    int stcp_accept(int socket, struct sockaddr *addr, int addrlen);$/;"	p	signature:(int socket, struct sockaddr *addr, int addrlen)
 stcp_bind	stcp_api.cpp	/^int stcp_bind(int socket, struct sockaddr *addr, int addrlen)$/;"	f	signature:(int socket, struct sockaddr *addr, int addrlen)
 stcp_bind	stcp_api.h	/^    int stcp_bind(int socket, struct sockaddr *addr, int addrlen);$/;"	p	signature:(int socket, struct sockaddr *addr, int addrlen)
@@ -123,11 +154,12 @@ stcp_cache::~stcp_cache	stcp_cache.h	/^        ~stcp_cache();$/;"	p	class:stcp_c
 stcp_class_enum	stcp.h	/^enum stcp_class_enum$/;"	g
 stcp_close	stcp_api.cpp	/^int stcp_close(int sockfd)$/;"	f	signature:(int sockfd)
 stcp_close	stcp_api.h	/^    int stcp_close(int sockfd);$/;"	p	signature:(int sockfd)
-stcp_connect	stcp_api.cpp	/^int stcp_connect(int sockfd, const struct sockaddr *addr, int addrlen)$/;"	f	signature:(int sockfd, const struct sockaddr *addr, int addrlen)
-stcp_connect	stcp_api.h	/^    int stcp_connect(int sockfd, const struct sockaddr *addr, int addrlen);$/;"	p	signature:(int sockfd, const struct sockaddr *addr, int addrlen)
+stcp_connect	stcp_api.cpp	/^int stcp_connect(int sockfd, struct sockaddr *addr, int addrlen)$/;"	f	signature:(int sockfd, struct sockaddr *addr, int addrlen)
+stcp_connect	stcp_api.h	/^    int stcp_connect(int sockfd, struct sockaddr *addr, int addrlen);$/;"	p	signature:(int sockfd, struct sockaddr *addr, int addrlen)
 stcp_listen	stcp_api.cpp	/^int stcp_listen(int socket, int backlog)$/;"	f	signature:(int socket, int backlog)
 stcp_listen	stcp_api.h	/^    int stcp_listen(int socket, int backlog);$/;"	p	signature:(int socket, int backlog)
-stcp_log	stcp_api.h	/^	void stcp_log(char* log);$/;"	p	signature:(char* log)
+stcp_log	stcp_api.cpp	/^void stcp_log(std::string log)$/;"	f	signature:(std::string log)
+stcp_log	stcp_api.h	/^	void stcp_log(std::string log);$/;"	p	signature:(std::string log)
 stcp_packet_cmd	stcp.h	/^enum stcp_packet_cmd$/;"	g
 stcp_packet_header	stcp.h	/^typedef struct stcp_packet_header$/;"	s
 stcp_packet_header::ucmd	stcp.h	/^    unsigned short ucmd;$/;"	m	struct:stcp_packet_header	access:public
@@ -150,19 +182,37 @@ stcp_recv	stcp_api.cpp	/^int stcp_recv(int sockfd, void *buf, size_t len, int fl
 stcp_recv	stcp_api.h	/^    int stcp_send(int sockfd, const void *buf, size_t len, int flags); int stcp_recv(int sockfd, void *buf, size_t len, int flags);$/;"	p	signature:(int sockfd, void *buf, size_t len, int flags)
 stcp_send	stcp_api.cpp	/^int stcp_send(int sockfd, const void *buf, size_t len, int flags)$/;"	f	signature:(int sockfd, const void *buf, size_t len, int flags)
 stcp_send	stcp_api.h	/^    int stcp_send(int sockfd, const void *buf, size_t len, int flags); int stcp_recv(int sockfd, void *buf, size_t len, int flags);$/;"	p	signature:(int sockfd, const void *buf, size_t len, int flags)
-stcp_socket	stcp_api.cpp	/^int stcp_socket(int af, int stream, int proto)$/;"	f	signature:(int af, int stream, int proto)
+stcp_socket	stcp_api.cpp	/^int stcp_socket(int af, int stream, int proto, int cls)$/;"	f	signature:(int af, int stream, int proto, int cls)
 stcp_socket	stcp_api.h	/^    int stcp_socket(int af, int stream, int proto);$/;"	p	signature:(int af, int stream, int proto)
+stcp_socket_accept	stcp_socket_accept.h	/^		stcp_socket_accept(int cls);$/;"	p	class:stcp_socket_accept	access:public	signature:(int cls)
 stcp_socket_accept	stcp_socket_accept.h	/^class stcp_socket_accept : stcp_socket_tcp$/;"	c	inherits:stcp_socket_tcp
-stcp_socket_base	stcp_socket_base.cpp	/^stcp_socket_base::stcp_socket_base(int sock_type, int sock_stream, int sock_proto)$/;"	f	class:stcp_socket_base	signature:(int sock_type, int sock_stream, int sock_proto)
+stcp_socket_accept::stcp_socket_accept	stcp_socket_accept.h	/^		stcp_socket_accept(int cls);$/;"	p	class:stcp_socket_accept	access:public	signature:(int cls)
+stcp_socket_base	stcp_socket_base.cpp	/^stcp_socket_base::stcp_socket_base(int sock_type,int sock_stream,int sock_proto): m_class(sock_type)$/;"	f	class:stcp_socket_base	signature:(int sock_type,int sock_stream,int sock_proto)
 stcp_socket_base	stcp_socket_base.h	/^        stcp_socket_base(int sock_type, int sock_stream, int sock_proto);$/;"	p	class:stcp_socket_base	access:public	signature:(int sock_type, int sock_stream, int sock_proto)
 stcp_socket_base	stcp_socket_base.h	/^class stcp_socket_base$/;"	c
+stcp_socket_base::accept	stcp_socket_base.h	/^		virtual int accept(struct sockaddr * addr, int addrlen);$/;"	p	class:stcp_socket_base	access:public	signature:(struct sockaddr * addr, int addrlen)
+stcp_socket_base::bind	stcp_socket_base.h	/^		virtual int bind(const struct sockaddr * addr, int addrlen);$/;"	p	class:stcp_socket_base	access:public	signature:(const struct sockaddr * addr, int addrlen)
+stcp_socket_base::close_socket	stcp_socket_base.h	/^		int close_socket();$/;"	p	class:stcp_socket_base	access:public	signature:()
+stcp_socket_base::close_socket_force	stcp_socket_base.h	/^		int close_socket_force();$/;"	p	class:stcp_socket_base	access:public	signature:()
+stcp_socket_base::connect	stcp_socket_base.h	/^		virtual int connect(struct sockaddr *addr, int addrlen);$/;"	p	class:stcp_socket_base	access:public	signature:(struct sockaddr *addr, int addrlen)
+stcp_socket_base::get_socket_class	stcp_socket_base.h	/^		int  get_socket_class();$/;"	p	class:stcp_socket_base	access:public	signature:()
+stcp_socket_base::listen	stcp_socket_base.h	/^		virtual int listen(int backlog);$/;"	p	class:stcp_socket_base	access:public	signature:(int backlog)
+stcp_socket_base::m_class	stcp_socket_base.h	/^		int m_class;\/\/socket 类型$/;"	m	class:stcp_socket_base	access:private
 stcp_socket_base::m_index	stcp_socket_base.h	/^		int m_index;\/\/socket在pool中的index$/;"	m	class:stcp_socket_base	access:private
 stcp_socket_base::m_socket	stcp_socket_base.h	/^		int m_socket;\/\/udp的socket$/;"	m	class:stcp_socket_base	access:private
-stcp_socket_base::stcp_socket_base	stcp_socket_base.cpp	/^stcp_socket_base::stcp_socket_base(int sock_type, int sock_stream, int sock_proto)$/;"	f	class:stcp_socket_base	signature:(int sock_type, int sock_stream, int sock_proto)
+stcp_socket_base::recv	stcp_socket_base.h	/^		virtual int recv(void *buf, int size, int flag);$/;"	p	class:stcp_socket_base	access:public	signature:(void *buf, int size, int flag)
+stcp_socket_base::send	stcp_socket_base.h	/^		virtual int send(const void * buf, int size, int flag);$/;"	p	class:stcp_socket_base	access:public	signature:(const void * buf, int size, int flag)
+stcp_socket_base::set_socket_class	stcp_socket_base.h	/^		void set_socket_class(int cls);$/;"	p	class:stcp_socket_base	access:public	signature:(int cls)
+stcp_socket_base::stcp_socket_base	stcp_socket_base.cpp	/^stcp_socket_base::stcp_socket_base(int sock_type,int sock_stream,int sock_proto): m_class(sock_type)$/;"	f	class:stcp_socket_base	signature:(int sock_type,int sock_stream,int sock_proto)
 stcp_socket_base::stcp_socket_base	stcp_socket_base.h	/^        stcp_socket_base(int sock_type, int sock_stream, int sock_proto);$/;"	p	class:stcp_socket_base	access:public	signature:(int sock_type, int sock_stream, int sock_proto)
+stcp_socket_base::~stcp_socket_base	stcp_socket_base.cpp	/^stcp_socket_base::~stcp_socket_base()$/;"	f	class:stcp_socket_base	signature:()
 stcp_socket_base::~stcp_socket_base	stcp_socket_base.h	/^        ~stcp_socket_base();$/;"	p	class:stcp_socket_base	access:public	signature:()
+stcp_socket_connect	stcp_socket_connect.h	/^		stcp_socket_connect(int cls);$/;"	p	class:stcp_socket_connect	access:public	signature:(int cls)
 stcp_socket_connect	stcp_socket_connect.h	/^class stcp_socket_connect : stcp_socket_tcp$/;"	c	inherits:stcp_socket_tcp
+stcp_socket_connect::stcp_socket_connect	stcp_socket_connect.h	/^		stcp_socket_connect(int cls);$/;"	p	class:stcp_socket_connect	access:public	signature:(int cls)
+stcp_socket_listen	stcp_socket_listen.h	/^		stcp_socket_listen(int cls);$/;"	p	class:stcp_socket_listen	access:public	signature:(int cls)
 stcp_socket_listen	stcp_socket_listen.h	/^class stcp_socket_listen : stcp_socket_base$/;"	c	inherits:stcp_socket_base
+stcp_socket_listen::stcp_socket_listen	stcp_socket_listen.h	/^		stcp_socket_listen(int cls);$/;"	p	class:stcp_socket_listen	access:public	signature:(int cls)
 stcp_socket_status	stcp.h	/^enum stcp_socket_status$/;"	g
 stcp_socket_tcp	stcp_socket_tcp.h	/^class stcp_socket_tcp: stcp_socket_base$/;"	c	inherits:stcp_socket_base
 stcp_startup	stcp_api.cpp	/^int stcp_startup()$/;"	f	signature:()
@@ -192,6 +242,7 @@ usnBase	stcp.h	/^    unsigned long usnBase;\/\/serial$/;"	m	struct:stcp_pkt_data
 ~queue_socket	queue_socket.h	/^		~queue_socket();$/;"	p	class:queue_socket	access:private	signature:()
 ~stcp_cache	stcp_cache.cpp	/^stcp_cache::~stcp_cache()$/;"	f	class:stcp_cache	signature:()
 ~stcp_cache	stcp_cache.h	/^        ~stcp_cache();$/;"	p	class:stcp_cache	access:public	signature:()
+~stcp_socket_base	stcp_socket_base.cpp	/^stcp_socket_base::~stcp_socket_base()$/;"	f	class:stcp_socket_base	signature:()
 ~stcp_socket_base	stcp_socket_base.h	/^        ~stcp_socket_base();$/;"	p	class:stcp_socket_base	access:public	signature:()
 ~stcp_startup	stcp_startup.cpp	/^stcp_startup::~stcp_startup()$/;"	f	class:stcp_startup	signature:()
 ~stcp_startup	stcp_startup.h	/^		~stcp_startup();$/;"	p	class:stcp_startup	access:public	signature:()

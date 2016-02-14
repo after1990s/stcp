@@ -2,6 +2,9 @@
 #define __STCP_H
 #include <assert.h>
 #include <cstring>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
 #include "stcp_errno.h"
 
 enum stcp_class_enum
