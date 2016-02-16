@@ -1,5 +1,8 @@
 #ifndef __STCP_SOCKET_LISTEN
 #define __STCP_SOCKET_LISTEN
+#include <cstring>
+#include <sys/types.h>
+#include <sys/socket.h>
 #include "stcp_socket_base.h"
 class stcp_socket_listen : stcp_socket_base
 {

@@ -25,8 +25,10 @@ class stcp_socket_base
 		int  get_socket_class();
 	private:
 		int m_index;//socket在pool中的index
-		int m_socket;//udp的socket
 		int m_class;//socket 类型
+
+	protected:
+		int m_socket;//udp的socket
 
 };
 #endif
