@@ -11,6 +11,7 @@ class stcp_socket_base
         stcp_socket_base(int sock_type, int sock_stream, int sock_proto, int cls);
         ~stcp_socket_base();
 
+	public://apis.
 		virtual int bind(const struct sockaddr * addr, int addrlen);
 		virtual int listen(int backlog);
 		virtual int accept(struct sockaddr * addr, int addrlen);
@@ -21,11 +22,18 @@ class stcp_socket_base
 		int close_socket_force();
 		int close_socket();
 
+	public:
+		virtual int on_recv();
+		virtual int on_send();
+		virtual int on_timer();
+
+
 		void set_socket_class(int cls);
 		int  get_socket_class();
 	private:
 		int m_index;//socket在pool中的index
 		int m_class;//socket 类型
+		int m_epoll;
 
 	protected:
 		int m_socket;//udp的socket

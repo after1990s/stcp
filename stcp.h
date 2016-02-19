@@ -3,8 +3,11 @@
 #include <assert.h>
 #include <cstring>
 #include <sys/socket.h>
+#include <sys/epoll.h>
 #include <arpa/inet.h>
+#include <signal.h>
 #include <netinet/in.h>
+#include <errno.h>
 #include "stcp_errno.h"
 
 enum stcp_class_enum
