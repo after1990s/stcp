@@ -2,7 +2,9 @@ cache_packet class.
 
 monitor thread.
 
+//queue_socket 和 socket_listen 循环引用问题
+
+listen 的连接问题。连接成功后，更新accept的地址，sendto发送数据。
 
 
-thrad priority
 man 7 ip, mtu adjust

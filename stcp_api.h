@@ -3,6 +3,7 @@
 #include "stcp.h"
 #include "stcp_errno.h"
 #include "stcp_startup.h"
+#include "queue_socket.h"
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <iostream>

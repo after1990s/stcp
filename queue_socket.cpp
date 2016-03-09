@@ -11,25 +11,7 @@ queue_socket::~queue_socket()
 {
 	free(m_psocket_queue);
 }
-/*queue_socket * queue_socket::get_instance()
-{
-	if (m_queue_socket_instance==nullptr)
-	{
-		m_mutex.lock();
-		m_queue_socket_instance = new queue_socket();
-		m_mutex.unlock();
-	}
-	return m_queue_socket_instance;
-}
-void queue_socket::destory_instance()
-{
-	if (m_queue_socket_instance==nullptr)
-		return;
-	m_mutex.lock();
-	delete m_queue_socket_instance;
-	m_mutex.unlock();
-}
-*/
+
 int queue_socket::socket_create(int cls)
 {
 	switch(cls)
@@ -45,13 +27,37 @@ int queue_socket::socket_create(int cls)
 			break;
 		default:
 			assert(false);
+			return -1;
 	}
 	m_psocket_queue[m_count].status = stcp_socket_status::STCP_STATUS_NULL;
 	m_count++;
-	return ERROR_SUCCESS; 
+	return m_count - 1; 
 }
 
-stcp_socket_base * queue_socket::queue_query_index(int index)
+int queue_socket::socket_create(int cls, int usid)
+{
+	switch(cls)
+	{
+		case stcp_class_enum::STCP_SOCKET_ACCEPT:
+			m_psocket_queue[m_count].ss = reinterpret_cast<stcp_socket_base*>(new stcp_socket_accept(cls));
+			break;
+		case stcp_class_enum::STCP_SOCKET_CONNECT:
+			m_psocket_queue[m_count].ss = reinterpret_cast<stcp_socket_base*>(new stcp_socket_connect(cls));
+			break;;
+		case stcp_class_enum::STCP_SOCKET_LISTEN:
+			m_psocket_queue[m_count].ss = reinterpret_cast<stcp_socket_base*>(new stcp_socket_listen(cls));
+			break;
+		default:
+			assert(false);
+			return -1;
+	}
+	m_psocket_queue[m_count].ss->set_usid(usid);
+	m_psocket_queue[m_count].status = stcp_socket_status::STCP_STATUS_NULL;
+	m_count++;
+	
+	return m_count-1;
+}
+stcp_socket_base * queue_socket::queue_query_by_index(int index)
 {
 	if (m_count <= index)
 	{
@@ -71,13 +77,13 @@ int queue_socket::socket_close(int index)
 		m_psocket_queue[m_count].status =  stcp_socket_status::STCP_STATUS_CLOSED;
 	}
 	delete m_psocket_queue[m_count].ss;
-	bzero(m_psocket_queue[m_count], sizeof(m_psocket_queue[m_count]);
+	memset(&m_psocket_queue[m_count], 0, sizeof(m_psocket_queue[m_count]));
 	m_mutex.unlock();
-	return STATUS_SUCCESS;
+	return ERROR_SUCCESS;
 
 }
 
-int queue_socket::socket_count()
+int queue_socket::socket_count() const
 {
 	return m_count;
 }

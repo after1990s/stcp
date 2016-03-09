@@ -77,7 +77,7 @@ void stcp_startup::worker_thread()
 		{
 			stcp_log("epoll_wait failed:");
 			stcp_log(strerror(errno));
-			COntinue;
+			continue;
 		}
 		stcp_socket_base * s_socket_base = 
 			reinterpret_cast<stcp_socket_base*>(ep_evt.data.ptr);

@@ -28,11 +28,15 @@ void thread_listen_test(void)
 	struct sockaddr_in addr = {0};
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(8008);
-	addr.sin_addr = inet_addr(INADDR_ANY);
+	addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	stcp_bind(s_listen, (struct addr*)&addr, sizeof(addr));
+	stcp_bind(s_listen, (struct sockaddr*)&addr, sizeof(addr));
 	stcp_listen(s_listen, 30);
-	while (int s_accept = stcp_accept(s_listen))
+	struct sockaddr_in rmt_addr = {0};
+	
+	while (int s_accept = stcp_accept(s_listen,
+				(struct sockaddr*)&rmt_addr, 
+				sizeof(rmt_addr)))
 	{
 		stcp_close(s_listen);
 	}

@@ -1,0 +1,2 @@
+clang++ -std=c++11 -pthread -DDEBUG -O0 -g -c queue_socket.cpp
+Makefile:9: recipe for target 'queue_socket.o' failed

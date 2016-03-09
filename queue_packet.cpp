@@ -1,7 +1,7 @@
 #include "queue_packet.h"
 queue_packet::queue_packet()
 {
-	m_queue_matrix = new PKTEXT[m_cache_size * m_cache_count];
+	m_queue_matrix = new SPKTEXT[m_cache_size * m_cache_count];
 }
 
 queue_packet::~queue_packet()

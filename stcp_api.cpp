@@ -15,6 +15,7 @@ int stcp_socket(int af, int stream, int proto, int cls)
 	assert(proto == IPPROTO_UDP);
 	assert(cls == stcp_class_enum::STCP_SOCKET_CONNECT || 
 			cls == stcp_class_enum::STCP_SOCKET_LISTEN);
+	//queue_socket::
 	int res = queue_socket::m_instance.socket_create(cls);
 	if (res < 0)
 	{
