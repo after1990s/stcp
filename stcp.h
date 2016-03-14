@@ -2,11 +2,13 @@
 #define __STCP_H
 #include <assert.h>
 #include <cstring>
+#include <cstdlib>
 #include <sys/socket.h>
 #include <sys/epoll.h>
 #include <arpa/inet.h>
 #include <signal.h>
 #include <netinet/in.h>
+#include <unistd.h>
 #include <errno.h>
 #include "stcp_errno.h"
 
@@ -21,7 +23,7 @@ enum stcp_class_enum
 enum stcp_packet_cmd
 {
 	STCP_CMD_CONNECT,
-	STCP_CMD_CONNECT_ACK,
+	STCP_CMD_CONNECT_ACK, // Record remote usid.
 	STCP_CMD_PSH,
 	STCP_CMD_ACK,
 	STCP_CMD_CLOSE,
@@ -65,6 +67,7 @@ typedef struct stcp_pkt_ack{
 	unsigned long urtt;
 	unsigned long usn_base;
 }SPKTACK;
+//send on network
 typedef struct stcp_pkt
 {
     SPKTHDR hdr;
@@ -75,11 +78,14 @@ typedef struct stcp_pkt
 		SPKTACK ack;
     }body;
 }SPKT;
+//use in memory.
 typedef struct stcp_pkt_ext
 {
     int pkt_size;
     int data_size;
     int data_offset;
+    struct sockaddr remote_addr;
+    struct sockaddr local_addr;
     SPKT pkt;
 }SPKTEXT;
 #pragma pop()

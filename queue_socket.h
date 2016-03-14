@@ -40,6 +40,7 @@ class queue_socket
 		SOCKET_QUEUE *m_psocket_queue;
 		std::atomic<int> m_count;
 		std::mutex m_mutex;
+
 	public:
 		queue_socket();
 		~queue_socket();

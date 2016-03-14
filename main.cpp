@@ -2,6 +2,7 @@
 #include "stcp_socket_base.h"
 #include "stcp_socket_listen.h"
 #include "stcp_api.h"
+#include "stcp_log.h"
 #include <thread>
 #include <sys/types.h>
 #include <sys/socket.h>

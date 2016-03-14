@@ -19,7 +19,7 @@ int stcp_socket(int af, int stream, int proto, int cls)
 	int res = queue_socket::m_instance.socket_create(cls);
 	if (res < 0)
 	{
-		stcp_log("queue_socket::socket_create faild");
+		stcp_log("queue_socket::socket_create Failed");
 		assert(false);
 	}
 	return res;
@@ -28,7 +28,7 @@ int stcp_bind(int socket, struct sockaddr *addr, int addrlen)
 {
 	int errnum = 0;
 	stcp_socket_base * stcp = 
-		queue_socket::m_instance.queue_query_index(socket);
+		queue_socket::m_instance.queue_query_by_index(socket);
 	assert (stcp != nullptr);
 	if (stcp == nullptr)
 	{
@@ -46,7 +46,7 @@ int stcp_listen(int socket, int backlog)
 {
 	int errnum = 0;
 	stcp_socket_base * stcp = 
-		queue_socket::m_instance.queue_query_index(socket);
+		queue_socket::m_instance.queue_query_by_index(socket);
 	assert (stcp != nullptr);
 	if (stcp == nullptr)
 	{
@@ -65,7 +65,7 @@ int stcp_accept(int socket, struct sockaddr *addr, int addrlen)
 {
 	int errnum = 0;
 	stcp_socket_base * stcp = 
-		queue_socket::m_instance.queue_query_index(socket);
+		queue_socket::m_instance.queue_query_by_index(socket);
 	assert(stcp != nullptr);
 	if (stcp == nullptr)
 	{
@@ -84,7 +84,7 @@ int stcp_accept(int socket, struct sockaddr *addr, int addrlen)
 int stcp_connect(int sockfd, struct sockaddr *addr, int addrlen)
 {
 	stcp_socket_base * stcp = 
-		queue_socket::m_instance.queue_query_index(sockfd);
+		queue_socket::m_instance.queue_query_by_index(sockfd);
 	assert (stcp != nullptr);
 	if (stcp==nullptr)
 	{
@@ -103,7 +103,7 @@ int stcp_connect(int sockfd, struct sockaddr *addr, int addrlen)
 int stcp_send(int sockfd, const void *buf, size_t len, int flags)
 {
 	stcp_socket_base * stcp = 
-		queue_socket::m_instance.queue_query_index(sockfd);
+		queue_socket::m_instance.queue_query_by_index(sockfd);
 	assert (stcp != nullptr);
 	if (stcp==nullptr)
 	{
@@ -116,7 +116,7 @@ int stcp_send(int sockfd, const void *buf, size_t len, int flags)
 int stcp_recv(int sockfd, void *buf, size_t len, int flags)
 {
 	stcp_socket_base * stcp = 
-		queue_socket::m_instance.queue_query_index(sockfd);
+		queue_socket::m_instance.queue_query_by_index(sockfd);
 	assert (stcp != nullptr);
 	if (stcp==nullptr)
 	{
@@ -139,7 +139,7 @@ int stcp_recv(int sockfd, void *buf, size_t len, int flags)
 int stcp_close(int sockfd)
 {
 	stcp_socket_base * stcp = 
-		queue_socket::m_instance.queue_query_index(sockfd);
+		queue_socket::m_instance.queue_query_by_index(sockfd);
 	assert (stcp != nullptr);
 	if (stcp==nullptr)
 	{

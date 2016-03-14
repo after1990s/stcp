@@ -22,7 +22,7 @@ stcp_startup::~stcp_startup()
 */
 stcp_socket_base* stcp_startup::get_socket(int index)
 {
-	stcp_socket_base *so = m_socket_queue.queue_query_index(index);
+	stcp_socket_base *so = m_socket_queue.queue_query_by_index(index);
 	if (so==NULL)
 	{
 		assert(false);
@@ -32,7 +32,7 @@ stcp_socket_base* stcp_startup::get_socket(int index)
 }
 int stcp_startup::make_socket(stcp_class_enum cls)
 {
-	return m_socket_queue.queue_create(cls);
+	return m_socket_queue.socket_create(cls);
 }
 void stcp_startup::timer_thread()
 {
@@ -46,7 +46,7 @@ void stcp_startup::timer_thread()
 		for (int i = 0; i < count; i++)
 		{
 		stcp_socket_base * s_socket_base = 
-			m_instance.m_socket_queue.queue_query_index(i);
+			m_instance.m_socket_queue.queue_query_by_index(i);
 		switch (s_socket_base->get_socket_class())
 		{
 			case stcp_class_enum::STCP_SOCKET_ACCEPT:
@@ -105,6 +105,6 @@ void stcp_block_signals()
 	if (rtn !=0)
 	{
 		stcp_log("sigprocmask failed:");
-		stcp_log(strerror(errno))
+		stcp_log(strerror(errno));
 	}
 }

@@ -10,13 +10,14 @@ int stcp_socket_listen::bind(const struct sockaddr * addr, int addrlen)
 	int ret = ::bind(m_socket, addr, addrlen);
 	if (ret == 0)
 	{
-		memcpy (&m_bind_addr, addr, addrlen);
+		memcpy ((void*)&m_bind_addr, (void*)addr, addrlen);
 	}
+
 	return ret;
 }
 int stcp_socket_listen::listen(int backlog)
 {
-	return ::listen(m_socket, backlog);
+	return ERROR_SUCCESS;//::listen(m_socket, backlog);
 }
 int stcp_socket_listen::accept(struct sockaddr * addr, int addrlen) 
 {
@@ -42,15 +43,13 @@ int stcp_socket_listen::on_recv()
 	stcp_socket_base::on_recv();
 	SPKTEXT * pkt_ext = m_queue_packet_recv.queue_alloc(0);
 	SPKT * pkt = &(pkt_ext->pkt);
-	struct sockaddr_in src_addr = {0};
-	int src_addr_len = sizeof(src_addr);
+	unsigned int src_addr_len = sizeof(pkt_ext->remote_addr);
 	while (true)
 	{
-		memset (&src_addr, 0, sizeof(src_addr));
 		memset (pkt, 0, sizeof(SPKT));
 		int recv_num = ::recvfrom(m_socket, pkt, sizeof(SPKT), 0,
-				(struct sockaddr*)&src_addr,
-				(socklen_t*)&src_addr_len);
+				(struct sockaddr*)&pkt_ext->remote_addr,
+				&src_addr_len);
 		if (recv_num <= 0)
 		{
 			break;
@@ -66,20 +65,20 @@ int stcp_socket_listen::on_recv()
 		}
 		else // (pkt->hdr.ucmd != STCP_CMD_CONNECT)
 		{
-			stcp_socket_accept * socket_connected= 
+			stcp_socket_accept * socket_accepted=
 				reinterpret_cast<stcp_socket_accept*>(
 					queue_socket::m_instance.queue_query_by_index(
 					pkt->hdr.usid
 					));
 	//		assert (socket_connected->get_socket_class() 
 	//				== stcp_class_enum::
-			if (socket_connected != nullptr)
+			if (socket_accepted != nullptr)
 			{
-				socket_connected->on_recv(pkt);
+				socket_accepted->notify_recv(pkt_ext);
 			}
 			else
 			{
-				sendback_reset((struct sockaddr*)&src_addr);
+				sendback_reset((struct sockaddr*)&pkt_ext->remote_addr);
 			}
 		}
 	}
@@ -88,12 +87,13 @@ int stcp_socket_listen::on_recv()
 void stcp_socket_listen::connect_accepted_notify(int accepteid)
 {
 	//回送发送成功，这个包无需确认，不需要从packetqueue中申请。
-	SPKT pkt = {0};
-	pkt.hdr.ucmd = STCP_CMD_CONNECT_ACK;
-	pkt.hdr.usid = accepteid;
+	SPKTEXT pkt = {0};
+
+	pkt.pkt.hdr.ucmd = STCP_CMD_CONNECT_ACK;
+	pkt.pkt.hdr.usid = accepteid;
 	stcp_socket_accept *acpt = reinterpret_cast<stcp_socket_accept*>(
-			queue_socket::m_instance.queue_query_index(accepteid));
-	acpt->close();
+			queue_socket::m_instance.queue_query_by_index(accepteid));
+	acpt->on_send(&pkt);
 }
 int stcp_socket_listen::on_timer() 
 {
@@ -101,3 +101,10 @@ int stcp_socket_listen::on_timer()
 	return 0;
 }
 
+void stcp_socket_listen::sendback_reset(struct sockaddr * src_addr)
+{
+	SPKT pkt = {0};
+	pkt.hdr.ucmd = STCP_CMD_RESET;
+	pkt.hdr.usid = 0;
+	::sendto(m_socket, &pkt, sizeof(SPKT), 0, src_addr, sizeof(struct sockaddr));
+}

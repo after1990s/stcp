@@ -5,6 +5,9 @@ class stcp_socket_connect : public stcp_socket_tcp
 {
 	public: 
 		stcp_socket_connect(int cls);
+		virtual ~stcp_socket_connect();
+	public:
+
 };
 
 #endif

@@ -70,9 +70,26 @@ int stcp_socket_base::close_socket()
 void stcp_socket_base::set_socket_class(int cls)
 {
 	//return ERROR_NOT_SUPPORT;
+	switch (cls){
+	case stcp_class_enum::STCP_SOCKET_ACCEPT:
+	case stcp_class_enum::STCP_SOCKET_CONNECT:
+	case stcp_class_enum::STCP_SOCKET_LISTEN:
+		m_class = cls;
+		break;
+	default:
+		assert(false);
+	}
 }
 int  stcp_socket_base::get_socket_class() const
 {
-	return ERROR_NOT_SUPPORT;
+	return m_class;
+}
+int stcp_socket_base::on_recv()
+{
+	return ERROR_SUCCESS;
+}
+int stcp_socket_base::on_send()
+{
+	return ERROR_SUCCESS;
 }
 

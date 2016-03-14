@@ -4,6 +4,9 @@ monitor thread.
 
 //queue_socket 和 socket_listen 循环引用问题
 
+on_recv , who alloc mem in queue_packet?
+stcp_socket_tcp::on_recv alloc mem in queue_packet.
+
 listen 的连接问题。连接成功后，更新accept的地址，sendto发送数据。
 
 

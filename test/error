@@ -1,0 +1,163 @@
+In file included from /usr/include/c++/4.9/mutex:35:0,
+                 from ../stcp_log.h:3,
+                 from ../stcp_log.cpp:1:
+/usr/include/c++/4.9/bits/c++0x_warning.h:32:2: error: #error This file requires compiler and library support for the ISO C++ 2011 standard. This support is currently experimental, and must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
+ #error This file requires compiler and library support for the \
+  ^
+In file included from ../stcp_log.cpp:1:0:
+../stcp_log.h:11:8: error: expected nested-name-specifier before ‘LOG_BUF’
+  using LOG_BUF = std::vector<char>;
+        ^
+../stcp_log.h:12:8: error: expected nested-name-specifier before ‘self’
+  using self = stcp_log;
+        ^
+../stcp_log.h:17:2: error: ‘self’ does not name a type
+  self& operator<<(short);
+  ^
+../stcp_log.h:18:2: error: ‘self’ does not name a type
+  self& operator<<(unsigned short);
+  ^
+../stcp_log.h:19:2: error: ‘self’ does not name a type
+  self& operator<<(int);
+  ^
+../stcp_log.h:20:2: error: ‘self’ does not name a type
+  self& operator<<(unsigned int);
+  ^
+../stcp_log.h:21:2: error: ‘self’ does not name a type
+  self& operator<<(long);
+  ^
+../stcp_log.h:22:2: error: ‘self’ does not name a type
+  self& operator<<(unsigned long);
+  ^
+../stcp_log.h:23:2: error: ‘self’ does not name a type
+  self& operator<<(long long);
+  ^
+../stcp_log.h:24:2: error: ‘self’ does not name a type
+  self& operator<<(unsigned long long);
+  ^
+../stcp_log.h:25:2: error: ‘self’ does not name a type
+  self& operator<<(const void*);
+  ^
+../stcp_log.h:26:2: error: ‘self’ does not name a type
+  self& operator<<(double);
+  ^
+../stcp_log.h:28:2: error: ‘self’ does not name a type
+  self& operator<<(float v)
+  ^
+../stcp_log.h:33:2: error: ‘self’ does not name a type
+  self& operator<<(char v)
+  ^
+../stcp_log.h:42:2: error: ‘self’ does not name a type
+  self& operator<<(const char* str)
+  ^
+../stcp_log.h:53:2: error: ‘self’ does not name a type
+  self& operator<<(const unsigned char* str)
+  ^
+../stcp_log.h:57:2: error: ‘self’ does not name a type
+  self& operator<<(std::string& v)
+  ^
+../stcp_log.h:70:7: error: ‘mutex’ in namespace ‘std’ does not name a type
+  std::mutex m_mutex;
+       ^
+../stcp_log.h:71:2: error: ‘LOG_BUF’ does not name a type
+  LOG_BUF m_buffer_0;
+  ^
+../stcp_log.h:72:2: error: ‘LOG_BUF’ does not name a type
+  LOG_BUF m_buffer_1;
+  ^
+../stcp_log.h:73:2: error: ‘LOG_BUF’ does not name a type
+  LOG_BUF * m_pbuffer_cur;
+  ^
+../stcp_log.h: In constructor ‘stcp_log::stcp_log()’:
+../stcp_log.h:81:3: error: ‘m_pbuffer_cur’ was not declared in this scope
+   m_pbuffer_cur = &m_buffer_0;
+   ^
+../stcp_log.h:81:20: error: ‘m_buffer_0’ was not declared in this scope
+   m_pbuffer_cur = &m_buffer_0;
+                    ^
+../stcp_log.h:83:3: error: ‘m_buffer_1’ was not declared in this scope
+   m_buffer_1.resize(1);};
+   ^
+../stcp_log.cpp: At global scope:
+../stcp_log.cpp:29:31: error: ‘uintptr_t’ has not been declared
+ size_t convertHex(char buf[], uintptr_t value)
+                               ^
+../stcp_log.cpp: In function ‘size_t convertHex(char*, int)’:
+../stcp_log.cpp:31:2: error: ‘uintptr_t’ was not declared in this scope
+  uintptr_t i = value;
+  ^
+../stcp_log.cpp:34:30: error: ‘i’ was not declared in this scope
+   int lsd = static_cast<int>(i%16);
+                              ^
+../stcp_log.cpp:38:9: error: ‘i’ was not declared in this scope
+  }while(i!=0);
+         ^
+../stcp_log.cpp: In member function ‘void stcp_log::format_int(T)’:
+../stcp_log.cpp:47:2: error: ‘m_mutex’ was not declared in this scope
+  m_mutex.lock();
+  ^
+../stcp_log.cpp:48:17: error: ‘m_pbuffer_cur’ was not declared in this scope
+  int now_size = m_pbuffer_cur->size();
+                 ^
+../stcp_log.cpp: At global scope:
+../stcp_log.cpp:53:39: error: no ‘stcp_log& stcp_log::operator<<(short int)’ member function declared in class ‘stcp_log’
+ stcp_log& stcp_log::operator<<(short v)
+                                       ^
+../stcp_log.cpp:58:48: error: no ‘stcp_log& stcp_log::operator<<(short unsigned int)’ member function declared in class ‘stcp_log’
+ stcp_log& stcp_log::operator<<(unsigned short v)
+                                                ^
+../stcp_log.cpp:63:37: error: no ‘stcp_log& stcp_log::operator<<(int)’ member function declared in class ‘stcp_log’
+ stcp_log& stcp_log::operator<<(int v)
+                                     ^
+../stcp_log.cpp:68:47: error: no ‘stcp_log& stcp_log::operator<<(unsigned int)’ member function declared in class ‘stcp_log’
+ stcp_log& stcp_log::operator<<(unsigned int v )
+                                               ^
+../stcp_log.cpp:74:38: error: no ‘stcp_log& stcp_log::operator<<(long int)’ member function declared in class ‘stcp_log’
+ stcp_log& stcp_log::operator<<(long v)
+                                      ^
+../stcp_log.cpp:79:47: error: no ‘stcp_log& stcp_log::operator<<(long unsigned int)’ member function declared in class ‘stcp_log’
+ stcp_log& stcp_log::operator<<(unsigned long v)
+                                               ^
+../stcp_log.cpp:84:43: error: no ‘stcp_log& stcp_log::operator<<(long long int)’ member function declared in class ‘stcp_log’
+ stcp_log& stcp_log::operator<<(long long v)
+                                           ^
+../stcp_log.cpp:89:52: error: no ‘stcp_log& stcp_log::operator<<(long long unsigned int)’ member function declared in class ‘stcp_log’
+ stcp_log& stcp_log::operator<<(unsigned long long v)
+                                                    ^
+../stcp_log.cpp:94:45: error: no ‘stcp_log& stcp_log::operator<<(const void*)’ member function declared in class ‘stcp_log’
+ stcp_log& stcp_log::operator<<(const void* p)
+                                             ^
+../stcp_log.cpp:106:40: error: no ‘stcp_log& stcp_log::operator<<(double)’ member function declared in class ‘stcp_log’
+ stcp_log& stcp_log::operator<<(double v)
+                                        ^
+../stcp_log.cpp: In member function ‘void stcp_log::flush()’:
+../stcp_log.cpp:114:2: error: ‘m_mutex’ was not declared in this scope
+  m_mutex.lock();
+  ^
+../stcp_log.cpp:115:2: error: ‘LOG_BUF’ was not declared in this scope
+  LOG_BUF * flush_buf = m_pbuffer_cur;
+  ^
+../stcp_log.cpp:115:12: error: ‘flush_buf’ was not declared in this scope
+  LOG_BUF * flush_buf = m_pbuffer_cur;
+            ^
+../stcp_log.cpp:115:24: error: ‘m_pbuffer_cur’ was not declared in this scope
+  LOG_BUF * flush_buf = m_pbuffer_cur;
+                        ^
+../stcp_log.cpp:116:20: error: ‘m_buffer_0’ was not declared in this scope
+  m_pbuffer_cur == &m_buffer_0 ?
+                    ^
+../stcp_log.cpp:117:21: error: ‘m_buffer_1’ was not declared in this scope
+    m_pbuffer_cur = &m_buffer_1:
+                     ^
+../stcp_log.cpp:120:18: error: ‘i’ does not name a type
+  for (const auto i: *flush_buf)
+                  ^
+../stcp_log.cpp:122:1: error: expected ‘;’ before ‘}’ token
+ }
+ ^
+../stcp_log.cpp:122:1: error: expected primary-expression before ‘}’ token
+../stcp_log.cpp:122:1: error: expected ‘;’ before ‘}’ token
+../stcp_log.cpp:122:1: error: expected primary-expression before ‘}’ token
+../stcp_log.cpp:122:1: error: expected ‘)’ before ‘}’ token
+../stcp_log.cpp:122:1: error: expected primary-expression before ‘}’ token
+make: *** [../stcp_log.o] Error 1

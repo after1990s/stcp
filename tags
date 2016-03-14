@@ -5,10 +5,8 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 ASM_SRCS	Debug/sources.mk	/^ASM_SRCS := $/;"	m
-CC	Makefile	/^CC=g++$/;"	m
 CC_DEPS	Debug/sources.mk	/^CC_DEPS := $/;"	m
 CC_SRCS	Debug/sources.mk	/^CC_SRCS := $/;"	m
-CPPFLAGS	Makefile	/^CPPFLAGS=-std=c++11 -pthread -DDEBUG -O0 -g$/;"	m
 CPP_DEPS	Debug/sources.mk	/^CPP_DEPS := $/;"	m
 CPP_SRCS	Debug/sources.mk	/^CPP_SRCS := $/;"	m
 CXX_DEPS	Debug/sources.mk	/^CXX_DEPS := $/;"	m
@@ -48,7 +46,7 @@ STCP_CMD_CONNECT	stcp.h	/^	STCP_CMD_CONNECT,$/;"	e	enum:stcp_packet_cmd
 STCP_CMD_CONNECT_ACK	stcp.h	/^	STCP_CMD_CONNECT_ACK,$/;"	e	enum:stcp_packet_cmd
 STCP_CMD_PSH	stcp.h	/^	STCP_CMD_PSH,$/;"	e	enum:stcp_packet_cmd
 STCP_CMD_RESET	stcp.h	/^	STCP_CMD_RESET$/;"	e	enum:stcp_packet_cmd
-STCP_PKT_DATA_SIZE	stcp.h	50;"	d
+STCP_PKT_DATA_SIZE	stcp.h	51;"	d
 STCP_SOCKET_ACCEPT	stcp.h	/^	STCP_SOCKET_ACCEPT,$/;"	e	enum:stcp_class_enum
 STCP_SOCKET_CONNECT	stcp.h	/^	STCP_SOCKET_CONNECT,$/;"	e	enum:stcp_class_enum
 STCP_SOCKET_LISTEN	stcp.h	/^	STCP_SOCKET_LISTEN,$/;"	e	enum:stcp_class_enum
@@ -122,6 +120,7 @@ hdr	stcp.h	/^    SPKTHDR hdr;$/;"	m	struct:stcp_pkt	access:public
 listen	stcp_socket_base.cpp	/^int stcp_socket_base::listen(int backlog)$/;"	f	class:stcp_socket_base	signature:(int backlog)
 listen	stcp_socket_base.h	/^		virtual int listen(int backlog);$/;"	p	class:stcp_socket_base	access:public	signature:(int backlog)
 listen	stcp_socket_listen.cpp	/^int stcp_socket_listen::listen(int backlog)$/;"	f	class:stcp_socket_listen	signature:(int backlog)
+local_addr	stcp.h	/^    struct sockaddr local_addr;$/;"	m	struct:stcp_pkt_ext	typeref:struct:stcp_pkt_ext::sockaddr	access:public
 m_accepted_stk	stcp_socket_listen.h	/^	    std::stack<int> m_accepted_stk;$/;"	m	class:stcp_socket_listen	access:private
 m_avaiable_sn	stcp_socket_tcp.h	/^		unsigned int m_avaiable_sn;\/\/允许传输的最大sn$/;"	m	class:stcp_socket_tcp	access:private
 m_bind_addr	stcp_socket_listen.h	/^		struct sockaddr m_bind_addr;$/;"	m	class:stcp_socket_listen	typeref:struct:stcp_socket_listen::sockaddr	access:private
@@ -154,10 +153,13 @@ main	main.cpp	/^int main(void)$/;"	f	signature:(void)
 make_socket	stcp_startup.cpp	/^int stcp_startup::make_socket(stcp_class_enum cls)$/;"	f	class:stcp_startup	signature:(stcp_class_enum cls)
 make_socket	stcp_startup.h	/^		int make_socket(stcp_class_enum cls);$/;"	p	class:stcp_startup	access:public	signature:(stcp_class_enum cls)
 notify_recv	stcp_socket_accept.h	/^		int notify_recv(SPKT *pkt);\/\/已经被其他类收到的数据，需要本类处理$/;"	p	class:stcp_socket_accept	access:public	signature:(SPKT *pkt)
-on_recv	stcp_socket_base.h	/^		virtual int on_recv();$/;"	p	class:stcp_socket_base	access:public	signature:()
+on_recv	stcp_socket_base.cpp	/^int stcp_socket_base::on_recv(SPKTEXT & extpkt)$/;"	f	class:stcp_socket_base	signature:(SPKTEXT & extpkt)
+on_recv	stcp_socket_base.h	/^		virtual int on_recv(SPKTEXT & ext_pkt);$/;"	p	class:stcp_socket_base	access:public	signature:(SPKTEXT & ext_pkt)
 on_recv	stcp_socket_listen.cpp	/^int stcp_socket_listen::on_recv() $/;"	f	class:stcp_socket_listen	signature:()
-on_send	stcp_socket_base.h	/^		virtual int on_send();$/;"	p	class:stcp_socket_base	access:public	signature:()
-on_timer	stcp_socket_base.h	/^		virtual int on_timer();$/;"	p	class:stcp_socket_base	access:public	signature:()
+on_send	stcp_socket_base.cpp	/^int stcp_socket_base::on_send(SPKTEXT & extpkt)$/;"	f	class:stcp_socket_base	signature:(SPKTEXT & extpkt)
+on_send	stcp_socket_base.h	/^		virtual int on_send(SPKTEXT & ext_pkt);$/;"	p	class:stcp_socket_base	access:public	signature:(SPKTEXT & ext_pkt)
+on_timer	stcp_socket_base.cpp	/^int stcp_socket_base::on_timer(SPKTEXT & extpkt)$/;"	f	class:stcp_socket_base	signature:(SPKTEXT & extpkt)
+on_timer	stcp_socket_base.h	/^		virtual int on_timer(SPKTEXT & ext_pkt);$/;"	p	class:stcp_socket_base	access:public	signature:(SPKTEXT & ext_pkt)
 on_timer	stcp_socket_listen.cpp	/^int stcp_socket_listen::on_timer() $/;"	f	class:stcp_socket_listen	signature:()
 override	stcp_socket_listen.h	/^		int bind(const struct sockaddr * addr, int addrlen) override;$/;"	m	class:stcp_socket_listen	access:public
 override	stcp_socket_listen.h	/^		int connect(struct sockaddr *addr, int addrlen) override;$/;"	m	class:stcp_socket_listen	access:private
@@ -230,6 +232,7 @@ queue_socket::~queue_socket	queue_socket.h	/^		~queue_socket();$/;"	p	class:queu
 recv	stcp_socket_base.cpp	/^int stcp_socket_base::recv(void *buf,int size,int flag)$/;"	f	class:stcp_socket_base	signature:(void *buf,int size,int flag)
 recv	stcp_socket_base.h	/^		virtual int recv(void *buf, int size, int flag);$/;"	p	class:stcp_socket_base	access:public	signature:(void *buf, int size, int flag)
 recv	stcp_socket_listen.cpp	/^int stcp_socket_listen::recv(void *buf, int size, int flag)$/;"	f	class:stcp_socket_listen	signature:(void *buf, int size, int flag)
+remote_addr	stcp.h	/^    struct sockaddr remote_addr;$/;"	m	struct:stcp_pkt_ext	typeref:struct:stcp_pkt_ext::sockaddr	access:public
 remote_addr	stcp_socket_tcp.h	/^		struct sockaddr_in remote_addr;$/;"	m	class:stcp_socket_tcp	typeref:struct:stcp_socket_tcp::sockaddr_in	access:private
 remove_socket	stcp_startup.h	/^		int remove_socket(int index);$/;"	p	class:stcp_startup	access:public	signature:(int index)
 send	stcp_socket_base.cpp	/^int stcp_socket_base::send(const void * buf,int size,int flag)$/;"	f	class:stcp_socket_base	signature:(const void * buf,int size,int flag)
@@ -305,8 +308,10 @@ stcp_pkt_data::usn_base	stcp.h	/^    unsigned long usn_base;\/\/serial$/;"	m	str
 stcp_pkt_ext	stcp.h	/^typedef struct stcp_pkt_ext$/;"	s
 stcp_pkt_ext::data_offset	stcp.h	/^    int data_offset;$/;"	m	struct:stcp_pkt_ext	access:public
 stcp_pkt_ext::data_size	stcp.h	/^    int data_size;$/;"	m	struct:stcp_pkt_ext	access:public
+stcp_pkt_ext::local_addr	stcp.h	/^    struct sockaddr local_addr;$/;"	m	struct:stcp_pkt_ext	typeref:struct:stcp_pkt_ext::sockaddr	access:public
 stcp_pkt_ext::pkt	stcp.h	/^    SPKT pkt;$/;"	m	struct:stcp_pkt_ext	access:public
 stcp_pkt_ext::pkt_size	stcp.h	/^    int pkt_size;$/;"	m	struct:stcp_pkt_ext	access:public
+stcp_pkt_ext::remote_addr	stcp.h	/^    struct sockaddr remote_addr;$/;"	m	struct:stcp_pkt_ext	typeref:struct:stcp_pkt_ext::sockaddr	access:public
 stcp_recv	stcp_api.cpp	/^int stcp_recv(int sockfd, void *buf, size_t len, int flags)$/;"	f	signature:(int sockfd, void *buf, size_t len, int flags)
 stcp_recv	stcp_api.h	/^    int stcp_send(int sockfd, const void *buf, size_t len, int flags); int stcp_recv(int sockfd, void *buf, size_t len, int flags);$/;"	p	signature:(int sockfd, void *buf, size_t len, int flags)
 stcp_send	stcp_api.cpp	/^int stcp_send(int sockfd, const void *buf, size_t len, int flags)$/;"	f	signature:(int sockfd, const void *buf, size_t len, int flags)
@@ -345,9 +350,12 @@ stcp_socket_base::m_queue_packet_recv	stcp_socket_base.h	/^		queue_packet m_queu
 stcp_socket_base::m_queue_packet_send	stcp_socket_base.h	/^		queue_packet m_queue_packet_send;$/;"	m	class:stcp_socket_base	access:protected
 stcp_socket_base::m_socket	stcp_socket_base.h	/^		int m_socket;\/\/udp的socket$/;"	m	class:stcp_socket_base	access:protected
 stcp_socket_base::m_usid	stcp_socket_base.h	/^		int m_usid;$/;"	m	class:stcp_socket_base	access:private
-stcp_socket_base::on_recv	stcp_socket_base.h	/^		virtual int on_recv();$/;"	p	class:stcp_socket_base	access:public	signature:()
-stcp_socket_base::on_send	stcp_socket_base.h	/^		virtual int on_send();$/;"	p	class:stcp_socket_base	access:public	signature:()
-stcp_socket_base::on_timer	stcp_socket_base.h	/^		virtual int on_timer();$/;"	p	class:stcp_socket_base	access:public	signature:()
+stcp_socket_base::on_recv	stcp_socket_base.cpp	/^int stcp_socket_base::on_recv(SPKTEXT & extpkt)$/;"	f	class:stcp_socket_base	signature:(SPKTEXT & extpkt)
+stcp_socket_base::on_recv	stcp_socket_base.h	/^		virtual int on_recv(SPKTEXT & ext_pkt);$/;"	p	class:stcp_socket_base	access:public	signature:(SPKTEXT & ext_pkt)
+stcp_socket_base::on_send	stcp_socket_base.cpp	/^int stcp_socket_base::on_send(SPKTEXT & extpkt)$/;"	f	class:stcp_socket_base	signature:(SPKTEXT & extpkt)
+stcp_socket_base::on_send	stcp_socket_base.h	/^		virtual int on_send(SPKTEXT & ext_pkt);$/;"	p	class:stcp_socket_base	access:public	signature:(SPKTEXT & ext_pkt)
+stcp_socket_base::on_timer	stcp_socket_base.cpp	/^int stcp_socket_base::on_timer(SPKTEXT & extpkt)$/;"	f	class:stcp_socket_base	signature:(SPKTEXT & extpkt)
+stcp_socket_base::on_timer	stcp_socket_base.h	/^		virtual int on_timer(SPKTEXT & ext_pkt);$/;"	p	class:stcp_socket_base	access:public	signature:(SPKTEXT & ext_pkt)
 stcp_socket_base::recv	stcp_socket_base.cpp	/^int stcp_socket_base::recv(void *buf,int size,int flag)$/;"	f	class:stcp_socket_base	signature:(void *buf,int size,int flag)
 stcp_socket_base::recv	stcp_socket_base.h	/^		virtual int recv(void *buf, int size, int flag);$/;"	p	class:stcp_socket_base	access:public	signature:(void *buf, int size, int flag)
 stcp_socket_base::send	stcp_socket_base.cpp	/^int stcp_socket_base::send(const void * buf,int size,int flag)$/;"	f	class:stcp_socket_base	signature:(const void * buf,int size,int flag)
